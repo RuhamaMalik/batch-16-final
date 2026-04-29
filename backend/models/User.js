@@ -39,12 +39,10 @@ const userScema = mongoose.Schema({
 
 userScema.pre("save", async function (next) {
   if (!this.isModified("password")) {
-    next();
+    // next();
   }
-
   this.password = await bcrypt.hash(this.password, 12);
-  next();
-
+  // next();
 });
 
 userScema.methods.comparePswd = function(userPswd){
