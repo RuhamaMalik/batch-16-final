@@ -1,11 +1,23 @@
-import './App.css'
+import { Outlet } from "react-router-dom"
+import Navbar from "./components/Navbar"
+import Footer from "./components/Footer"
+import { useAuthContext } from "./context/AuthContext"
 
-function App() {
-
+const App = () => {
+  const { loading} = useAuthContext();
+  if(loading){
+     return (
+    <>
+     <h1> Loading... </h1>
+    </>
+  )
+  }
   return (
-   <>
-   <h1 className='text-3xl text-red-700'>hello</h1>
-   </>
+    <>
+      <Navbar />
+      <Outlet />
+      <Footer/>
+    </>
   )
 }
 
