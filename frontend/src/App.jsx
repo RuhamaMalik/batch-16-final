@@ -4,6 +4,7 @@ import Footer from "./components/Footer"
 import { useAuthContext } from "./context/AuthContext"
 
 const App = () => {
+  
   const { loading} = useAuthContext();
   if(loading){
      return (

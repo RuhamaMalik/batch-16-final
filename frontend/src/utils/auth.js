@@ -3,6 +3,7 @@ export const getToken = () => localStorage.getItem('token');
 export const removeToken = () => localStorage.removeItem('token');
 
 export const setUser = (user) => localStorage.setItem('user', JSON.stringify(user));
+
 export const getUser = () => {
   const user = localStorage.getItem('user');
   return user ? JSON.parse(user) : null;
@@ -16,3 +17,5 @@ export const isAuthorized = () => {
   return !!token && !!user; /// Boolean(token)
 };
 
+// {} false true
+// null true false
