@@ -29,11 +29,14 @@ export const signUp = async (req, res) => {
     const user = await User.create(req.body);
     const token = signInToken(user);
 
+      let userWithoutPswd = user.toObject();
+    delete userWithoutPswd.password;
+
     res.status(201).json({
       message: 'User creates successfully',
       success: true,
       token,
-      user
+      user:userWithoutPswd
     })
 
   } catch (error) {

@@ -18,15 +18,52 @@ const AuthForm = () => {
         });
     };
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        console.log("Login Function Called", formData);
-        // login logic 
+
+        try {
+            const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/signin`, formData);
+
+            if (data.success) {
+                setUser(data.user)
+                setToken(data.token)
+                setFormData({
+                    email: "",
+                    password: "",
+                })
+                navigate("/")
+            }
+
+
+        } catch (error) {
+            console.log('SginIn ERROR: ', error.message);
+        }
+
+
     };
 
     const handleSignup = async (e) => {
         e.preventDefault();
-      //signup logic
+        try {
+            const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/auth/signup`, formData);
+
+            if (data.success) {
+                setUser(data.user);
+                setToken(data.token);
+                setFormData({
+                    email: "",
+                    password: "",
+                })
+                navigate("/");
+            }
+
+
+
+        } catch (error) {
+            console.log('Signup ERROR: ', error);
+        }
+
+
     };
 
     const handleSubmit = (e) => {
