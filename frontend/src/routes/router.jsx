@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import Home from '../pages/Home';
 import ProtectedRoute from '../components/ProtectedRoute';
-import ChangePassword from '../components/dashboard/user/ChangePassword';
+// import ChangePassword from '../components/dashboard/user/ChangePassword';
 import Dashboard from '../components/dashboard/admin/Dashboard';
 import DashboardLayout from '../layout/DashboardLayout';
 import ForgotPswd from '../pages/ForgotPswd';
@@ -18,6 +18,13 @@ const router = createBrowserRouter([
                 index: true,
                 element: (
                     <Home />
+                ),
+            },
+
+            {
+                path: 'forgot-password',
+                element: (
+                    <ForgotPswd />
                 ),
             },
 
@@ -39,19 +46,15 @@ const router = createBrowserRouter([
                     <h1>Profile Page</h1>
                 ),
             },
-            // {
-            //     path: 'account-settings',
-            //     element: (
-            //         <AccountSetting />
-            //     ),
-            // },
-          
             {
-                path: 'change-password',
+                path: 'reset-password',
                 element: (
-                    <ChangePassword />
+                    <ResetPaswd />
                 ),
             },
+             
+          
+          
 
         ],
     },

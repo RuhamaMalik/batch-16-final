@@ -1,10 +1,11 @@
 import User from '../models/User.js';
+import _sendEmail from '../utils/Email.js';
 import { signInToken } from '../utils/token.js';
 
 
 export const signUp = async (req, res) => {
-  console.log(">>>>> ",req.body);
-  
+  console.log(">>>>> ", req.body);
+
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -29,14 +30,14 @@ export const signUp = async (req, res) => {
     const user = await User.create(req.body);
     const token = signInToken(user);
 
-      let userWithoutPswd = user.toObject();
+    let userWithoutPswd = user.toObject();
     delete userWithoutPswd.password;
 
     res.status(201).json({
       message: 'User creates successfully',
       success: true,
       token,
-      user:userWithoutPswd
+      user: userWithoutPswd
     })
 
   } catch (error) {
@@ -69,7 +70,7 @@ export const signin = async (req, res) => {
       message: 'SignIn successfully!',
       success: true,
       token,
-      user:userWithoutPswd
+      user: userWithoutPswd
     })
 
   } catch (error) {
@@ -81,7 +82,46 @@ export const signin = async (req, res) => {
   }
 }
 
+export const forgotPswd = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
 
+  if (!user) {
+    return res.status(404).json({
+      success: false,
+      message: "User not found"
+    })
+  }
+
+/////// reset pswd token
+const resetToken = jwt.sign({id:user._id}, process.env.JWT_SECRET,{expiresIn:'2m'});
+
+try {
+
+await _sendEmail({
+  to: user.email,
+  subject:'Reset Password',
+  html: `
+  
+    <div style="width: 90%; margin: 0 auto;">
+    <h1>Reset Password</h1>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt, dolore mollitia quia delectus saepe id.</p>
+    <p>Click here to reset password : <a style="color: green; text-decoration: none;" href="">Reset</a></p>
+  </div>
+  
+  `
+})
+
+  
+} catch (error) {
+  res.status(500).json({
+    success:false,
+    message:'Email send failed'
+  })
+}
+
+
+}
 
 
 //////// profile
